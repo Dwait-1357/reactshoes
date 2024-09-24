@@ -1,0 +1,26 @@
+.product-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px; /* Space between the columns */
+    align-items: start; /* Align items at the start */
+    padding: 20px;
+}
+
+.product-image img {
+    max-width: 100%;
+    height: auto; /* Ensure the image is responsive */
+    border-radius: 10px; /* Optional: rounded corners */
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column; /* Stack info vertically */
+}
+
+.product-info h2 {
+    margin: 0 0 10px; /* Spacing below the heading */
+}
+
+.product-info p {
+    margin: 5px 0; /* Spacing between paragraphs */
+}

@@ -1,0 +1,31 @@
+.footer {
+    padding: 20px 0;
+    color: #fff;
+}
+
+.social-icons {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Center align the icons */
+    flex-wrap: wrap; /* Allow icons to wrap to the next line if necessary */
+}
+
+.social-icons li {
+    margin: 10px; /* Add margin around each icon */
+}
+
+.social-icons a {
+    color: #fff; /* Change icon color */
+    font-size: 24px; /* Set icon size */
+    transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+.social-icons a:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+.footer-text {
+    margin-top: 10px;
+    text-align: center;
+}
