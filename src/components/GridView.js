@@ -1,64 +1,206 @@
 import React from "react";
-import Product from "./Product";
-import Feture from "./Feture";
 import { NavLink } from 'react-router-dom';
+import axios from "axios";
 
-const GridView = ({category}) => {
-
+const GridView = ({ category }) => {
     const image_path = 'http://127.0.0.1:8000/uploads/products/';
 
-    return(        
-           
-        <>
-       <h2 style={{display:'flex',justifyContent:'center', marginTop:'15px'}}>Feauter Items</h2>
-        <div className="container mt-4">
-            <div className="row">
-                {category.length > 0 ? (
-                    category.map(service => (
-                        <div className="col-md-4 mb-4" key={service.id} {...service}>
-                            <div 
-                                className="card"
-                                style={{
-                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
-                                    borderRadius: '8px',
-                                    transition: 'box-shadow 0.3s ease-in-out' 
-                                }}
-                            >
-                                <img 
-                                    src={image_path + service.image} 
-                                    className="card-img-top" 
-                                    alt={service.name} 
-                                    style={{ height: '200px', width:'300px'}} 
-                                />
-                                <div className="card-body">
-                                    <h5 className="card-title">{service.name}</h5>
-                                    <p className="card-text">Price: ${service.price}</p>
-                                    <p className="card-text">Size: {service.size}</p>
-                                    <p className="card-text">Category: {service.category}</p>
-                                    <p className="card-text">brand: {service.brand}</p>
+    const handleAddToCart = async (productId) => {
+        try {
+            const userId = localStorage.getItem('userId'); // Replace with actual logged-in user ID
+            await axios.post('http://127.0.0.1:8000/api/cart', {
+                user_id: userId,
+                product_id: productId,
+            });
+            alert('Product added to cart successfully');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to add product to cart');
+        }
+    };
 
-                                    <NavLink to={`/feture/${service.id}`}>
-                                    <button  className="btn btn-primary">ADD TO CART</button>
-                                    </NavLink> 
+    return (
+        <>
+            <h2 style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>Featured Items</h2>
+            <div className="container mt-4">
+                <div className="row">
+                    {category.length > 0 ? (
+                        category.map(service => (
+                            <div className="col-md-4 mb-4" key={service.id}>
+                                <div 
+                                    className="card"
+                                    style={{
+                                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                                        borderRadius: '8px',
+                                        transition: 'box-shadow 0.3s ease-in-out'
+                                    }}
+                                >
+                                    <img 
+                                        src={image_path + service.image} 
+                                        className="card-img-top" 
+                                        alt={service.name} 
+                                        style={{ height: '200px', width: '300px' }} 
+                                    />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{service.name}</h5>
+                                        <p className="card-text">Price: ${service.price}</p>
+                                        <p className="card-text">Size: {service.size}</p>
+                                        <p className="card-text">Category: {service.category}</p>
+                                        <p className="card-text">Brand: {service.brand}</p>
+                                        <button 
+                                            className="btn btn-primary" 
+                                            onClick={() => handleAddToCart(service.id)}
+                                        >
+                                            ADD TO CART
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        ))
+                    ) : (
+                        <div className="col-12">
+                            <div className="alert alert-info" role="alert">
+                                No services available.
+                            </div>
                         </div>
-                    ))
-                ) : (
-                    <div className="col-12">
-                        <div className="alert alert-info" role="alert">
-                            No services available.
-                        </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-        </div>
-                 
-               </>
-            
-            );
-}
+        </>
+    );
+};
+
 export default GridView;
+
+
+
+//imp21 import React from "react";
+// import Product from "./Product";
+// import Feture from "./Feture";
+// import { NavLink } from 'react-router-dom';
+// import { useCartContext } from "../ContextApi/cart_context";
+// import axios from "axios"; 
+
+
+// const GridView = ({category}) => {
+ 
+   
+    
+
+//     const image_path = 'http://127.0.0.1:8000/uploads/products/';
+
+//     return(        
+           
+//         <>
+//        <h2 style={{display:'flex',justifyContent:'center', marginTop:'15px'}}>Feauter Items</h2>
+//         <div className="container mt-4">
+//             <div className="row">
+//                 {category.length > 0 ? (
+//                     category.map(service => (
+//                         <div className="col-md-4 mb-4" key={service.id} {...service}>
+//                             <div 
+//                                 className="card"
+//                                 style={{
+//                                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
+//                                     borderRadius: '8px',
+//                                     transition: 'box-shadow 0.3s ease-in-out' 
+//                                 }}
+//                             >
+//                                 <img 
+//                                     src={image_path + service.image} 
+//                                     className="card-img-top" 
+//                                     alt={service.name} 
+//                                     style={{ height: '200px', width:'300px'}} 
+//                                 />
+//                                 <div className="card-body">
+//                                     <h5 className="card-title">{service.name}</h5>
+//                                     <p className="card-text">Price: ${service.price}</p>
+//                                     <p className="card-text">Size: {service.size}</p>
+//                                     <p className="card-text">Category: {service.category}</p>
+//                                     <p className="card-text">brand: {service.brand}</p>
+
+//                                     <NavLink to={`/feture/${service.id}`}>
+//                                     <button  className="btn btn-primary">ADD TO CART</button>
+//                                     </NavLink>  
+
+
+                                    
+//                                      {/* <button className="btn btn-primary" onClick={placeOrder}>Add To Cart</button> */}
+                                    
+
+
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     ))
+//                 ) : (
+//                     <div className="col-12">
+//                         <div className="alert alert-info" role="alert">
+//                             No services available.
+//                         </div>
+//                     </div>
+//                 )}
+//             </div>
+//         </div>
+                 
+//                </>
+            
+//             );
+// }
+// export default GridView;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
