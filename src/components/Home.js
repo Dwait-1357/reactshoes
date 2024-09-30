@@ -1,5 +1,3 @@
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider from "./Slider";
 import { NavLink } from "react-router-dom";
@@ -76,7 +74,7 @@ function Home() {
                                             className="btn btn-primary"
                                             onClick={() => handleAddToCart(service)}
                                         >
-                                          ADD TO CART
+                                          View Product
                                           </button>
                                    
                                 </div>

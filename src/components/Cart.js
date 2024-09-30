@@ -126,6 +126,7 @@ const Cart = () => {
                             })}
                         </tbody>
                     </table>
+                       
                 ) : (
                     <p> cart is loading.</p>
                 )}
@@ -134,8 +135,12 @@ const Cart = () => {
                 <div style={{ marginTop: '20px', fontWeight: 'bold' }}>
                     Total Amount: ${calculateTotal()}
                 </div>
-            )}
+            )}  
+
+                     
         </div>
+
+          
     );
 };
 

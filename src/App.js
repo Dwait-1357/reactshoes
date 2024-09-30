@@ -14,19 +14,14 @@ import { useCartContext } from './ContextApi/cart_context';
 import Feautersingleproduct from './components/Featuresingleproduct';
 import Cart from './components/Cart';
 import Product from './components/Product';
-import { FiShoppingCart } from 'react-icons/fi';
 import Footer from './components/Footer';
 import { useEffect, useState } from 'react';
-
-import { BrowserRouter, Route, Routes, Link, NavLink } from 'react-router-dom';
-
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 function App() {
-  const { total_item,clearCart } = useCartContext();
+  const { clearCart } = useCartContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
-  
-
 
   const token = localStorage.getItem('token');
   const userData = JSON.parse(localStorage.getItem('userData'));
@@ -41,8 +36,6 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('jay');
     clearCart();
     setIsLoggedIn(false);
   };
@@ -53,20 +46,18 @@ function App() {
         <nav className="navbar">
           <div className="navbar-brand">
             {isLoggedIn && (
-              <span className="navbar-text text-white" style={{ display: 'block', marginTop: '10px' }}>
+              <span className="navbar-text">
                 Welcome, {userName}!
               </span>
             )}
           </div>
+        
           <ul className="navbar-links">
-          <li>
-                  <Link className="nav-link" to="/">Home</Link>
-                </li>
+            <li>
+              <Link className="nav-link" to="/">Home</Link>
+            </li>
             {isLoggedIn ? (
               <>
-                {/* <li>
-                  <Link className="nav-link" to="/">Home</Link>
-                </li> */}
                 <li>
                   <Link className="nav-link" to="/product">Products</Link>
                 </li>
@@ -76,17 +67,12 @@ function App() {
                 <li>
                   <Link className="nav-link" to="/contact">Contact</Link>
                 </li>
-
                 <li>
                   <Link className="nav-link" to="/cart">Cart</Link>
                 </li>
-                
                 <li>
                   <Link className="nav-link" to="/login" onClick={handleLogout}>Logout</Link>
                 </li>
-
-              
-               
               </>
             ) : (
               <>
@@ -105,13 +91,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUserName={setUserName} />} /> {/* Pass the props here */}
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUserName={setUserName} />} />
         <Route path="/register" element={<Register />} />
-       
-        <Route path="/services" element={<Services />}>
-          <Route path="running" element={<Running />} />
-          <Route path="football" element={<Football />} />
-        </Route>
+        <Route path="/services" element={<Services />} />
         <Route path="/running/:id" element={<RunningDetails />} />
         <Route path="/feture" element={<Feture />} />
         <Route path="/feture/:id" element={<Feautersingleproduct />} />
@@ -124,8 +106,6 @@ function App() {
 }
 
 export default App;
-
-
 
 
 

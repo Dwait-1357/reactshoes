@@ -23,8 +23,8 @@ const AddToCart = ({product}) => {
     }
 
     return <>
-         <CartAmountToggle amount={amount} setDecrease={setDecrease} setIncrease={setIncrease}/>
-         <NavLink to="/cart" onClick={ () => addToCart(id,amount,product)}>AddToCart</NavLink>
+         {/* <CartAmountToggle amount={amount} setDecrease={setDecrease} setIncrease={setIncrease}/> */}
+         {/* <NavLink to="/cart" onClick={ () => addToCart(id,amount,product)}>AddToCart</NavLink> */}
          
 
           </>

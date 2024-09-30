@@ -29,7 +29,7 @@ const Feautersingleproduct = () => {
                     <h2>{name}</h2>
                     <p>Price: ${price}</p>
                     <p>Size: {size}</p>
-                    <p>Stock: {stock}</p>
+                    {/* <p>Stock: {stock}</p> */}
                     <p>Brand: {brand}</p>
                     <p>Category: {category}</p>
                     <p>Description: {description}</p>
