@@ -1,33 +1,37 @@
 import React from "react";
-import { NavLink } from 'react-router-dom';
-import axios from "axios";
+ import { NavLink } from 'react-router-dom';
+  import axios from "axios";
 
 const GridView = ({ category }) => {
     const image_path = 'http://127.0.0.1:8000/uploads/products/';
 
     const handleAddToCart = async (productId) => {
         try {
-            const userId = localStorage.getItem('userId'); // Replace with actual logged-in user ID
-            await axios.post('http://127.0.0.1:8000/api/cart', {
+            const userId = localStorage.getItem('userId');
+            const response = await axios.post('http://127.0.0.1:8000/api/cart', {
                 user_id: userId,
                 product_id: productId,
             });
             alert('Product added to cart successfully');
         } catch (error) {
-            console.error(error);
-            alert('Failed to add product to cart');
+            if (error.response && error.response.status === 400) {
+                alert(error.response.data.message); // Display specific error message from server
+            } else {
+                console.error(error);
+                alert('Failed to add product to cart');
+            }
         }
     };
 
     return (
         <>
-            <h2 style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>Featured Items</h2>
+            <h2 style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>PRODUCT</h2>
             <div className="container mt-4">
                 <div className="row">
                     {category.length > 0 ? (
                         category.map(service => (
                             <div className="col-md-4 mb-4" key={service.id}>
-                                <div 
+                                <div
                                     className="card"
                                     style={{
                                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
@@ -35,11 +39,11 @@ const GridView = ({ category }) => {
                                         transition: 'box-shadow 0.3s ease-in-out'
                                     }}
                                 >
-                                    <img 
-                                        src={image_path + service.image} 
-                                        className="card-img-top" 
-                                        alt={service.name} 
-                                        style={{ height: '200px', width: '300px' }} 
+                                    <img
+                                        src={image_path + service.image}
+                                        className="card-img-top"
+                                        alt={service.name}
+                                        style={{ height: '200px', width: '300px' }}
                                     />
                                     <div className="card-body">
                                         <h5 className="card-title">{service.name}</h5>
@@ -47,12 +51,16 @@ const GridView = ({ category }) => {
                                         <p className="card-text">Size: {service.size}</p>
                                         <p className="card-text">Category: {service.category}</p>
                                         <p className="card-text">Brand: {service.brand}</p>
-                                        <button 
-                                            className="btn btn-primary" 
-                                            onClick={() => handleAddToCart(service.id)}
-                                        >
-                                            ADD TO CART
-                                        </button>
+                                        {service.stock > 0 ? ( // Check if stock is available
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={() => handleAddToCart(service.id)}
+                                            >
+                                                ADD TO CART
+                                            </button>
+                                        ) : (
+                                            <p className="text-danger">Out of Stock</p> // Show out of stock message
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -69,8 +77,83 @@ const GridView = ({ category }) => {
         </>
     );
 };
-
 export default GridView;
+
+
+
+//17 import React from "react";
+// import { NavLink } from 'react-router-dom';
+// import axios from "axios";
+
+// const GridView = ({ category }) => {
+//     const image_path = 'http://127.0.0.1:8000/uploads/products/';
+
+//     const handleAddToCart = async (productId) => {
+//         try {
+//             const userId = localStorage.getItem('userId'); // Replace with actual logged-in user ID
+//             await axios.post('http://127.0.0.1:8000/api/cart', {
+//                 user_id: userId,
+//                 product_id: productId,
+//             });
+//             alert('Product added to cart successfully');
+//         } catch (error) {
+//             console.error(error);
+//             alert('Failed to add product to cart');
+//         }
+//     };
+
+//     return (
+//         <>
+//             <h2 style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>PRODUCT</h2>
+//             <div className="container mt-4">
+//                 <div className="row">
+//                     {category.length > 0 ? (
+//                         category.map(service => (
+//                             <div className="col-md-4 mb-4" key={service.id}>
+//                                 <div 
+//                                     className="card"
+//                                     style={{
+//                                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+//                                         borderRadius: '8px',
+//                                         transition: 'box-shadow 0.3s ease-in-out'
+//                                     }}
+//                                 >
+//                                     <img 
+//                                         src={image_path + service.image} 
+//                                         className="card-img-top" 
+//                                         alt={service.name} 
+//                                         style={{ height: '200px', width: '300px' }} 
+//                                     />
+//                                     <div className="card-body">
+//                                         <h5 className="card-title">{service.name}</h5>
+//                                         <p className="card-text">Price: ${service.price}</p>
+//                                         <p className="card-text">Size: {service.size}</p>
+//                                         <p className="card-text">Category: {service.category}</p>
+//                                         <p className="card-text">Brand: {service.brand}</p>
+//                                         <button 
+//                                             className="btn btn-primary" 
+//                                             onClick={() => handleAddToCart(service.id)}
+//                                         >
+//                                             ADD TO CART
+//                                         </button>
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         ))
+//                     ) : (
+//                         <div className="col-12">
+//                             <div className="alert alert-info" role="alert">
+//                                 No services available.
+//                             </div>
+//                         </div>
+//                     )}
+//                 </div>
+//             </div>
+//         </>
+//     );
+// };
+
+// export default GridView;
 
 
 

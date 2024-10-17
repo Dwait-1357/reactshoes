@@ -29,6 +29,7 @@ function Login({ setIsLoggedIn, setUserName }) { // Add props
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem("userId",response.data.user.id);
+                localStorage.setItem("userEmail",response.data.user.email);
                 localStorage.setItem('userData', JSON.stringify({
                     email: formData.email,
                     fname: response.data.user.fname, 

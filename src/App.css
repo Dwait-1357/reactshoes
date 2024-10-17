@@ -164,6 +164,28 @@ body {
   .product-details div {
     max-width: 100%;
   }
+  html, body {
+    height: 100%; /* Full height */
+    margin: 0; /* Remove default margin */
+}
+
+.App {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    min-height: 100vh; /* Full viewport height */
+}
+
+.main-content {
+    flex: 1; /* Allow main content to grow and take available space */
+}
+
+.footer {
+    padding: 20px 0;
+    color: #fff;
+    background-color: #333; /* Example background color */
+    text-align: center; /* Center text */
+}
+
 }
 
 

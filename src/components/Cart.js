@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { NavLink,useNavigate } from "react-router-dom";
+import { FaTrash } from 'react-icons/fa';
+
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
-
+    const navigate = useNavigate(); 
     // Update quantity and sync with the backend
-    const updateProductQuantity =  (index, newQuantity) => {
+
+    
+     const updateProductQuantity =  (index, newQuantity) => {
         const itemStock = cartItems[index].product.stock;
     
         if (newQuantity > itemStock) {
@@ -66,6 +71,39 @@ const Cart = () => {
         return cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0).toFixed(2);
     };
 
+  
+
+        const placeOrder = async () => {
+        const userId = localStorage.getItem("userId");
+        const userEmail = localStorage.getItem("userEmail");
+        const totalAmount = calculateTotal();
+        const orderItems = cartItems.map(item => ({
+            product_id: item.product.id,
+            quantity: item.quantity,
+            price: item.product.price
+        }));
+    
+        const orderData = {
+            user_id: userId,
+            email: userEmail,
+            total_amount: totalAmount,
+            items: orderItems,
+        };
+    
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/orders', orderData);
+            if (response.status === 200) {
+                alert("Order placed successfully!");
+                navigate('/order');
+            } else {
+                alert("Failed to place the order.");
+            }
+        } catch (error) {
+            console.error("Error placing order:", error);
+            alert("An error occurred while placing the order.");
+        }
+    };
+
     // useEffect code
     useEffect(() => {
         fetchCartItems();
@@ -103,36 +141,60 @@ const Cart = () => {
                                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>{item.product.size}</td>
                                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>${item.product.price}</td>
                                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>
-    <button
-        className="subtract"
-        onClick={() => updateProductQuantity(index, parseInt(item.quantity) - 1)}
-    >
-        -
-    </button>
-    <input 
-        type="number" 
-        min="1" 
-        value={item.quantity} 
-        style={{ width: '50px', margin: '0 5px' }} 
-        readOnly 
-    />
-    <button
-        className="add"
-        onClick={() => updateProductQuantity(index, parseInt(     
-            item.quantity) + 1)}
-    >
-        +
-    </button>
-</td>
+                                          
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <button
+                                                onClick={() => updateProductQuantity(index, parseInt(item.quantity) - 1)}
+                                                style={{
+                                                    background: 'lightgray',
+                                                    border: 'none',
+                                                    padding: '5px 10px',
+                                                    cursor: 'pointer',
+                                                    borderRadius: '5px',
+                                                    marginRight: '5px',
+                                                    fontWeight: 'bold'
+                                                }}
+                                            >
+                                                -
+                                            </button>
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                value={item.quantity}
+                                                style={{ width: '50px', textAlign: 'center', margin: '0 5px', border: '1px solid #ddd', borderRadius: '5px' }}
+                                                readOnly
+                                            />
+                                            <button
+                                                onClick={() => updateProductQuantity(index, parseInt(item.quantity) + 1)}
+                                                style={{
+                                                    background: 'lightgray',
+                                                    border: 'none',
+                                                    padding: '5px 10px',
+                                                    cursor: 'pointer',
+                                                    borderRadius: '5px',
+                                                    marginLeft: '5px',
+                                                    fontWeight: 'bold'
+                                                }}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                
+            
+                                     
+                                         </td>
 
                                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>${subtotal.toFixed(2)}</td>
                                         <td style={{ border: '1px solid #ddd', padding: '8px' }}>
-                                            <button 
+                                            {/* <button 
                                                 onClick={() => removeFromCart(item.id)} 
                                                 style={{ backgroundColor: 'red', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
                                             >
                                                 Remove
-                                            </button>
+                                            </button> */}
+                                               <button onClick={() => removeFromCart(item.id)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                                                 <FaTrash size={20} color="red" />
+                                             </button>
                                         </td>
                                     </tr>
                                 );
@@ -144,8 +206,18 @@ const Cart = () => {
                 )}
             </div>
             {cartItems.length > 0 && (
-                <div style={{ marginTop: '20px', fontWeight: 'bold' }}>
-                    Total Amount: ${calculateTotal()}
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', fontWeight: 'bold' }}>
+                    <div>Total Amount: ${calculateTotal()}</div>
+                    {/* <NavLink to="/order" style={{ textDecoration: 'none' }}>
+                        <button style={{ padding: '10px 20px', backgroundColor: 'green', color: 'white', border: 'none', cursor: 'pointer',marginRight:'50px' }}>
+                            Place Order
+                        </button>
+                    </NavLink> */}
+<button 
+    onClick={placeOrder}  // Call placeOrder on button click
+    style={{ padding: '10px 20px', backgroundColor: 'green', color: 'white', border: 'none', cursor: 'pointer', marginRight: '50px' }}>
+    Place Order
+</button>
                 </div>
             )}
         </div>
@@ -153,6 +225,285 @@ const Cart = () => {
 };
 
 export default Cart;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

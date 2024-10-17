@@ -22,7 +22,7 @@ const ListView = ({ category }) => {
 
     return (
         <>
-            <h2 style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>Feature Items</h2>
+            <h2 style={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>PRODUCT</h2>
             <div className="container mt-4">
                 <div className="row">
                     {category.length > 0 ? (
